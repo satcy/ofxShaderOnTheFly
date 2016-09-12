@@ -4,7 +4,8 @@
 //  Created by satcy on 2016/01/05.
 //
 //
-
+#ifdef DISABLE_OFX_SHADER_ON_THE_FLY
+#else
 #include "ofxShaderOnTheFly.h"
 ofxShaderOnTheFly::ofxShaderOnTheFly() {
     ofShader::ofShader();
@@ -72,3 +73,4 @@ void ofxShaderOnTheFly::update(){
 void ofxShaderOnTheFly::update(ofEventArgs &e){
     update();
 }
+#endif

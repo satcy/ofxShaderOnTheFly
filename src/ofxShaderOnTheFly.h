@@ -2,6 +2,9 @@
 
 #include "ofShader.h"
 
+#ifdef DISABLE_OFX_SHADER_ON_THE_FLY
+typedef ofShader ofxShaderOnTheFly;
+#else
 class ofxShaderOnTheFly : public ofShader{
 protected:
     std::time_t lastFragTimestamp, lastVertTimestamp, lastGeomTimestamp;
@@ -20,3 +23,5 @@ public:
 protected:
     void update(ofEventArgs &e);
 };
+
+#endif
