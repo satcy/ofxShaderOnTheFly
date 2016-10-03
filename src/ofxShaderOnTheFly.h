@@ -2,6 +2,8 @@
 
 #include "ofShader.h"
 
+#define OFX_GLSL(VERSION,CODE) "#version " #VERSION "\n" #CODE
+
 #ifdef DISABLE_OFX_SHADER_ON_THE_FLY
 typedef ofShader ofxShaderOnTheFly;
 #else
