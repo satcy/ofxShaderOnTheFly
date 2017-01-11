@@ -11,12 +11,18 @@ class ofxShaderOnTheFly : public ofShader{
 protected:
     std::time_t lastFragTimestamp, lastVertTimestamp, lastGeomTimestamp;
     string fragFileName, vertFileName, geomFileName;
+    GLenum geometry_input_type, geometry_output_type;
+    int geomrty_output_count;
 public:
     ofxShaderOnTheFly();
     ~ofxShaderOnTheFly();
     
     bool load(string shaderName);
     bool load(string vertName, string fragName, string geomName="");
+    
+    void setGeometryInputType(GLenum type);
+    void setGeometryOutputType(GLenum type);
+    void setGeometryOutputCount(int count);
     
     void enable();
     void disable();
