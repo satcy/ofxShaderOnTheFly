@@ -4,9 +4,9 @@
 //  Created by satcy on 2016/01/05.
 //
 //
+#include "ofxShaderOnTheFly.h"
 #ifdef DISABLE_OFX_SHADER_ON_THE_FLY
 #else
-#include "ofxShaderOnTheFly.h"
 ofxShaderOnTheFly::ofxShaderOnTheFly() : ofShader() {
     fragFileName = "";
     vertFileName = "";
