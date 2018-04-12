@@ -8,6 +8,11 @@
 typedef ofShader ofxShaderOnTheFly;
 #else
 class ofxShaderOnTheFly : public ofShader{
+private:
+    static bool is_active_all;
+public:
+    static void setIsActiveAll( bool b ) { is_active_all = b; }
+    static bool getIsActiveAll() { return is_active_all; }
 protected:
     std::time_t lastFragTimestamp, lastVertTimestamp, lastGeomTimestamp;
     string fragFileName, vertFileName, geomFileName;

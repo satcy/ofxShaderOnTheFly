@@ -7,6 +7,9 @@
 #include "ofxShaderOnTheFly.h"
 #ifdef DISABLE_OFX_SHADER_ON_THE_FLY
 #else
+
+bool ofxShaderOnTheFly::is_active_all = true;
+
 ofxShaderOnTheFly::ofxShaderOnTheFly() : ofShader() {
     fragFileName = "";
     vertFileName = "";
@@ -65,6 +68,7 @@ void ofxShaderOnTheFly::disable(){
     ofRemoveListener(ofEvents().update, this, &ofxShaderOnTheFly::update);
 }
 void ofxShaderOnTheFly::update(){
+    if ( isLoaded() && !is_active_all ) return;
     if ( ofGetFrameNum()%100 == 1 ) {
         ofFile fragFile(fragFileName), vertFile(vertFileName);
         
