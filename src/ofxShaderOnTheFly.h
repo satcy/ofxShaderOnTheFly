@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofShader.h"
+#include "ofEvents.h"
 
 #define OFX_GLSL(VERSION,CODE) "#version " #VERSION "\n" #CODE
 //#define DISABLE_OFX_SHADER_ON_THE_FLY
@@ -15,15 +16,15 @@ public:
     static bool getIsActiveAll() { return is_active_all; }
 protected:
     std::time_t lastFragTimestamp, lastVertTimestamp, lastGeomTimestamp;
-    string fragFileName, vertFileName, geomFileName;
+    std::string fragFileName, vertFileName, geomFileName;
     GLenum geometry_input_type, geometry_output_type;
     int geomrty_output_count;
 public:
     ofxShaderOnTheFly();
     ~ofxShaderOnTheFly();
     
-    bool load(string shaderName);
-    bool load(string vertName, string fragName, string geomName="");
+    bool load(std::string shaderName);
+    bool load(std::string vertName, std::string fragName, std::string geomName="");
     
     void setGeometryInputType(GLenum type);
     void setGeometryOutputType(GLenum type);
