@@ -10,6 +10,8 @@
 
 bool ofxShaderOnTheFly::is_active_all = true;
 
+using namespace std;
+
 ofxShaderOnTheFly::ofxShaderOnTheFly() : ofShader() {
     fragFileName = "";
     vertFileName = "";
@@ -69,6 +71,7 @@ void ofxShaderOnTheFly::disable(){
 }
 void ofxShaderOnTheFly::update(){
     if ( isLoaded() && !is_active_all ) return;
+
     if ( ofGetFrameNum()%100 == 1 ) {
         ofFile fragFile(fragFileName), vertFile(vertFileName);
         
