@@ -5,12 +5,19 @@
 //
 //
 #include "ofxShaderOnTheFly.h"
+#include "ofFileUtils.h"
 #ifdef DISABLE_OFX_SHADER_ON_THE_FLY
 #else
 
 bool ofxShaderOnTheFly::is_active_all = true;
 
 using namespace std;
+
+#if OF_VERSION_MAJOR == 0 && OF_VERSION_MINOR < 12
+#   define TO_TIME_T(time) (time)
+#else
+#   define TO_TIME_T(time) (decltype(time)::clock::to_time_t(time))
+#endif
 
 ofxShaderOnTheFly::ofxShaderOnTheFly() : ofShader() {
     fragFileName = "";
@@ -31,17 +38,17 @@ bool ofxShaderOnTheFly::load(string vertName, string fragName, string geomName){
     if(vertName.empty() == false) {
         vertFileName = vertName;
         ofFile file(vertFileName);
-        lastVertTimestamp = std::filesystem::last_write_time(file);
+        lastVertTimestamp = TO_TIME_T(std::filesystem::last_write_time(file));
     }
     if(fragName.empty() == false) {
         fragFileName = fragName;
         ofFile file(fragFileName);
-        lastFragTimestamp = std::filesystem::last_write_time(file);
+        lastFragTimestamp = TO_TIME_T(std::filesystem::last_write_time(file));
     }
     if(geomName.empty() == false) {
         geomFileName = geomName;
         ofFile file(geomFileName);
-        lastGeomTimestamp = std::filesystem::last_write_time(file);
+        lastGeomTimestamp = TO_TIME_T(std::filesystem::last_write_time(file));
     }
     enable();
     return ofShader::load(vertName, fragName, geomName);
@@ -75,12 +82,12 @@ void ofxShaderOnTheFly::update(){
     if ( ofGetFrameNum()%100 == 1 ) {
         ofFile fragFile(fragFileName), vertFile(vertFileName);
         
-        std::time_t fragTimestamp = std::filesystem::last_write_time(fragFile);
-        std::time_t vertTimestamp = std::filesystem::last_write_time(vertFile);
+        std::time_t fragTimestamp = TO_TIME_T(std::filesystem::last_write_time(fragFile));
+        std::time_t vertTimestamp = TO_TIME_T(std::filesystem::last_write_time(vertFile));
         
         if ( !geomFileName.empty() ) {
             ofFile geomFile(geomFileName);
-            std::time_t geomTimestamp = std::filesystem::last_write_time(geomFile);
+            std::time_t geomTimestamp = TO_TIME_T(std::filesystem::last_write_time(geomFile));
             
             if(fragTimestamp != lastFragTimestamp || vertTimestamp != lastVertTimestamp || geomTimestamp != lastGeomTimestamp ) {
                 unload();
