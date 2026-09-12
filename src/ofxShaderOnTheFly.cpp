@@ -5,6 +5,7 @@
 //
 //
 #include "ofxShaderOnTheFly.h"
+#include "ofFileUtils.h"
 #ifdef DISABLE_OFX_SHADER_ON_THE_FLY
 #else
 
@@ -31,17 +32,17 @@ bool ofxShaderOnTheFly::load(string vertName, string fragName, string geomName){
     if(vertName.empty() == false) {
         vertFileName = vertName;
         ofFile file(vertFileName);
-        lastVertTimestamp = std::filesystem::last_write_time(file);
+        lastVertTimestamp = std::filesystem::last_write_time(file.getAbsolutePath());
     }
     if(fragName.empty() == false) {
         fragFileName = fragName;
         ofFile file(fragFileName);
-        lastFragTimestamp = std::filesystem::last_write_time(file);
+        lastFragTimestamp = std::filesystem::last_write_time(file.getAbsolutePath());
     }
     if(geomName.empty() == false) {
         geomFileName = geomName;
         ofFile file(geomFileName);
-        lastGeomTimestamp = std::filesystem::last_write_time(file);
+        lastGeomTimestamp = std::filesystem::last_write_time(file.getAbsolutePath());
     }
     enable();
     return ofShader::load(vertName, fragName, geomName);
@@ -74,13 +75,13 @@ void ofxShaderOnTheFly::update(){
 
     if ( ofGetFrameNum()%100 == 1 ) {
         ofFile fragFile(fragFileName), vertFile(vertFileName);
-        
-        std::time_t fragTimestamp = std::filesystem::last_write_time(fragFile);
-        std::time_t vertTimestamp = std::filesystem::last_write_time(vertFile);
+
+        auto fragTimestamp = std::filesystem::last_write_time(fragFile.getAbsolutePath());
+        auto vertTimestamp = std::filesystem::last_write_time(vertFile.getAbsolutePath());
         
         if ( !geomFileName.empty() ) {
             ofFile geomFile(geomFileName);
-            std::time_t geomTimestamp = std::filesystem::last_write_time(geomFile);
+            auto geomTimestamp = std::filesystem::last_write_time(geomFile.getAbsolutePath());
             
             if(fragTimestamp != lastFragTimestamp || vertTimestamp != lastVertTimestamp || geomTimestamp != lastGeomTimestamp ) {
                 unload();

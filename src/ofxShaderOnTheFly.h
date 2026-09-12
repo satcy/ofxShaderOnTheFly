@@ -2,6 +2,7 @@
 
 #include "ofShader.h"
 #include "ofEvents.h"
+#include <filesystem>
 
 #define OFX_GLSL(VERSION,CODE) "#version " #VERSION "\n" #CODE
 //#define DISABLE_OFX_SHADER_ON_THE_FLY
@@ -15,7 +16,7 @@ public:
     static void setIsActiveAll( bool b ) { is_active_all = b; }
     static bool getIsActiveAll() { return is_active_all; }
 protected:
-    std::time_t lastFragTimestamp, lastVertTimestamp, lastGeomTimestamp;
+    std::filesystem::file_time_type lastFragTimestamp, lastVertTimestamp, lastGeomTimestamp;
     std::string fragFileName, vertFileName, geomFileName;
     GLenum geometry_input_type, geometry_output_type;
     int geomrty_output_count;
